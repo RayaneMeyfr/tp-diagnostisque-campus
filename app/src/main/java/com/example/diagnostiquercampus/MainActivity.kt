@@ -1,6 +1,7 @@
 package com.example.diagnostiquercampus
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +18,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        //val capacity: Int = "12";
+        //Initializer type mismatch: expected 'Int', actual 'String'.
+
+        val capacity = "douze".toIntOrNull() ?: 0;
+        //FATAL EXCEPTION: main
+        //java.lang.NumberFormatException: For input string: "douze"
+        //com.example.diagnostiquercampus.MainActivity.onCreate(MainActivity.kt:22)
+
+        val TAG = "Campus"
+        Log.d(TAG,  "Places :$capacity")
+        
         setContent {
             DiagnostiquerCampusTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
