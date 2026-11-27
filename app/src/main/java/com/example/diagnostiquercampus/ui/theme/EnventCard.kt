@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,7 +32,7 @@ val event = Event(
 )
 
 @Composable
-fun EventHeader(event: Event, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun EventCard(event: Event, onClick: () -> Unit, onBook: () -> Unit, modifier: Modifier = Modifier) {
     Card(onClick = onClick, modifier = modifier) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -44,9 +45,22 @@ fun EventHeader(event: Event, onClick: () -> Unit, modifier: Modifier = Modifier
 
             Text(event.location ?: "Lieu à confirmer")
 
-            TextButton(onClick = onClick, modifier = Modifier.align(Alignment.End)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Voir -->")
+                if (event.capacity > 0) {
+                    TextButton(onClick = onBook) {
+                        Text("Réserver")
+                    }
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                TextButton(onClick = onClick) {
+                    Text("Voir →")
+                }
             }
         }
     }
@@ -54,10 +68,11 @@ fun EventHeader(event: Event, onClick: () -> Unit, modifier: Modifier = Modifier
 
 @Preview(showBackground = true)
 @Composable
-fun EventHeaderPreview(){
-    EventHeader(
+fun EnventCardPreview(){
+    EventCard(
         event,
         onClick = { Log.d(TAG, "Ouvrir ${event.id}") },
+        onBook = {event.capacity -= 1},
         Modifier.fillMaxWidth()
     )
 }
